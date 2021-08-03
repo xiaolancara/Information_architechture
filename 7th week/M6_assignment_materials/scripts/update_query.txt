@@ -1,0 +1,14 @@
+update t_ord_order
+set 
+ord_id = '1543',
+status_code = 'dis',
+ord_disp_dt = '02/20/2020'
+where 
+ord_id in('1543');
+
+update t_ord_item
+set 
+ord_id = '1543',
+status_code = 'cur'
+where 
+oitem_id in('2142', '8044', '476', '7462');

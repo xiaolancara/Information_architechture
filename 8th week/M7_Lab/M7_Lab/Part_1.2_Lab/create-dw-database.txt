@@ -1,0 +1,61 @@
+DROP DATABASE IF EXISTS `dav6100_db_2_dw`;
+CREATE DATABASE  IF NOT EXISTS `dav6100_db_2_dw`
+ /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `dav6100_db_2_dw`;
+
+
+DROP TABLE IF EXISTS `dim_orders`;
+CREATE TABLE `dim_orders` (
+  `order_key` int not null auto_increment primary key,
+  `order_id` varchar(50),
+  `order_amount` varchar(200)
+  );
+  
+DROP TABLE IF EXISTS `dim_supplier`;
+CREATE TABLE `dim_supplier` (
+  `supplier_key` int not null auto_increment primary key,
+  `supplier_id` varchar(50),
+  `supplier_name` varchar(1024),
+   `supplier_status` varchar(100),
+  `supplier_country` varchar(100)
+  );  
+  
+  DROP TABLE IF EXISTS `dim_product`;
+CREATE TABLE `dim_product` (
+  `product_key` int not null auto_increment primary key,
+  `product_id` varchar(50),
+  `item_id` varchar(50),
+  `product_description` varchar(1024),
+  `product_category` int(5)
+  );
+  
+  DROP TABLE IF EXISTS `dim_date`;
+CREATE TABLE `dim_date` (
+  `date_key` int not null auto_increment primary key,
+  `date_string` varchar(100),
+  `date_year` int,
+  `date_month` int,
+  `date_day` int,
+  `date_quarter` int,
+  `date_weekday` int,
+  `date_week` int
+  );
+  
+  DROP TABLE IF EXISTS `order_line`;
+  CREATE TABLE `order_line`(
+  `product_key` int not null,
+  `order_key` int not null,
+  `supplier_key` int not null,
+  `order_date_key` int not null,
+  `item_quantity` int,
+  `item_amount` decimal(19,4),
+  FOREIGN KEY (`product_key`) References `dim_product`(`product_key`),
+  FOREIGN KEY (`order_key`) References `dim_orders`(`order_key`),
+  FOREIGN KEY (`supplier_key`) References `dim_supplier`(`supplier_key`),
+  FOREIGN KEY (`order_date_key`) References `dim_date`(`date_key`),
+  PRIMARY KEY (`product_key`,`order_key`, `supplier_key`, `order_date_key`)
+  );
+  
+  SELECT * FROM order_line;
+  
+  
